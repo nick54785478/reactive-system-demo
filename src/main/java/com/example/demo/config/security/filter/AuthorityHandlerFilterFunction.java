@@ -64,7 +64,7 @@ public class AuthorityHandlerFilterFunction implements HandlerFilterFunction<Ser
 			return next.handle(request);
 		}
 
-		return ServerResponse.status(HttpStatus.UNAUTHORIZED).bodyValue(new BaseExceptionResponse(401, "權限不足，不允許此操作"));
+		return ServerResponse.status(HttpStatus.FORBIDDEN).bodyValue(new BaseExceptionResponse(403, "權限不足，不允許此操作"));
 
 	}
 
