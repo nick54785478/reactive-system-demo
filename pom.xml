@@ -28,11 +28,19 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<mysql.version>8.0.33</mysql.version>
+		<jasync-r2dbc-mysql>2.2.4</jasync-r2dbc-mysql>
+		<jjwt.version>0.12.6</jjwt.version>
 	</properties>
 	<dependencies>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,7 +66,7 @@
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.33</version>
+		    <version>${mysql.version}</version>
 		</dependency>
 		<!--<dependency>
 		    <groupId>dev.miku</groupId>
@@ -93,7 +101,7 @@
 		<dependency>
 			<groupId>com.github.jasync-sql</groupId>
 			<artifactId>jasync-r2dbc-mysql</artifactId>
-			<version>2.2.4</version>
+			<version>${jasync-r2dbc-mysql}</version>
 		</dependency>
 		<dependency>
 		  <groupId>io.r2dbc</groupId>
@@ -111,23 +119,24 @@
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt-api</artifactId>
-		    <version>0.12.6</version>
+		    <version>${jjwt.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt-impl</artifactId>
-		    <version>0.12.6</version>
+		    <version>${jjwt.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt</artifactId>
-		    <version>0.12.6</version>
+		    <version>${jjwt.version}</version>
 		</dependency>
+		<!-- 
 		<dependency>
 		    <groupId>com.nimbusds</groupId>
 		    <artifactId>nimbus-jose-jwt</artifactId>
 		    <version>9.40</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 		    <groupId>org.apache.kerby</groupId>
 		    <artifactId>token-provider</artifactId>
