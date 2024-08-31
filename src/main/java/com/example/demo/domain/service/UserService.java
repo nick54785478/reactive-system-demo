@@ -1,13 +1,12 @@
 package com.example.demo.domain.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.user.aggregate.UserInfo;
 import com.example.demo.domain.user.command.CreateUserCommand;
 import com.example.demo.domain.user.command.UpdateUserCommand;
+import com.example.demo.exception.ValidationException;
 import com.example.demo.infra.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,9 +49,18 @@ public class UserService {
 	 * @return Mono<User>
 	 */
 	public Mono<String> createUser(CreateUserCommand command) {
-		UserInfo userInfo = new UserInfo();
-		userInfo.create(command);
-		return userRepository.save(userInfo).map(e -> "成功新增一筆資料，id:" + e.getId());
+		Mono<UserInfo> userMono = userRepository.findByUsername(command.getUsername());
+		return userMono.hasElement().flatMap(hasElements -> {
+			if (hasElements) {
+				log.error("指定帳戶已存在，註冊失敗");
+				throw new ValidationException(409, "指定帳戶已存在，註冊失敗");
+			} else {
+				UserInfo userInfo = new UserInfo();
+				userInfo.create(command);
+				return userRepository.save(userInfo).map(e -> "成功新增一筆資料，id:" + e.getId());
+			}
+		});
+		
 	}
 
 	/**
