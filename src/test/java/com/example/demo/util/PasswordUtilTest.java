@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SpringBootTest
 class PasswordUtilTest {
 
@@ -22,7 +25,7 @@ class PasswordUtilTest {
 	void testEncode() {
 		String target = "system123";
 		this.encodedTarget = PasswordUtil.encode(target);
-		System.out.println("encodedTarget: "+encodedTarget);
+		log.info("encodedTarget: {}", encodedTarget);
 		assertNotEquals("", encodedTarget);
 
 	}
