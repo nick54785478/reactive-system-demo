@@ -17,6 +17,4 @@ public class UpdateUserCommand {
 
 	private String address;
 	
-	private String activeFlag;
-	
 }

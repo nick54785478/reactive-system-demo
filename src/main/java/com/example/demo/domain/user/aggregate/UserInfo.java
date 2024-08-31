@@ -85,8 +85,6 @@ public class UserInfo {
 		this.name = (StringUtils.isNotBlank(command.getName())) ? command.getName() : this.name;
 		this.email = (StringUtils.isNotBlank(command.getEmail())) ? command.getEmail() : this.email;
 		this.address = (StringUtils.isNotBlank(command.getAddress())) ? command.getAddress() : this.address;
-		this.activeFlag = command.getActiveFlag();
-
 	}
 
 	/**
