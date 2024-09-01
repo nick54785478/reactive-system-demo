@@ -7,6 +7,7 @@ import com.example.demo.domain.user.aggregate.UserInfo;
 import com.example.demo.domain.user.command.CreateUserCommand;
 import com.example.demo.domain.user.command.UpdateUserCommand;
 import com.example.demo.exception.ValidationException;
+import com.example.demo.infra.repository.AuthRepository;
 import com.example.demo.infra.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private AuthRepository authRepository;
 
 	/**
 	 * 根據使用者ID 查詢使用者
@@ -60,7 +63,7 @@ public class UserService {
 				return userRepository.save(userInfo).map(e -> "成功新增一筆資料，id:" + e.getId());
 			}
 		});
-		
+
 	}
 
 	/**
@@ -88,8 +91,11 @@ public class UserService {
 			// 更新 activeFlag = "N"
 			user.delete();
 			// 保存用戶
-			return userRepository.save(user);
-		}).map(e -> "成功刪除一筆資料, id:" + e.getId());
+			return userRepository.save(user).flatMap(e -> {
+				return authRepository.deleteByUserId(e.getId())
+						.thenReturn("成功刪除一筆資料");
+			});
+		});
 	}
 
 }

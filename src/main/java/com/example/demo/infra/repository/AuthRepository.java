@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 public interface AuthRepository extends R2dbcRepository<Auth, Long> {
 
 	Flux<Auth> findByUserIdAndActiveFlag(Long userId, String activeFlag);
+
+	Mono<Auth> deleteByUserId(Long userId);
 	
 	@Modifying
 	@Query(value = "DELETE FROM auth_info WHERE user_id = :userId AND role_id <> 1")

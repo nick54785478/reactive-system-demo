@@ -120,7 +120,7 @@ public class UserHandler {
 	public Mono<ServerResponse> updateUser(ServerRequest request) {
 		Mono<UpdateUserCommand> userMono = request.bodyToMono(UpdateUserCommand.class);
 		return userMono.flatMap(userCommandService::updateUserInfo)
-				.flatMap(user -> ServerResponse.ok().bodyValue(user));
+				.flatMap(e -> ServerResponse.ok().bodyValue(e));
 	}
 
 	/**
@@ -131,7 +131,8 @@ public class UserHandler {
 	 */
 	public Mono<ServerResponse> deleteUser(ServerRequest request) {
 		String userId = request.pathVariable("id");
-		return userCommandService.deleteUserInfoById(Long.parseLong(userId)).then(ServerResponse.ok().build());
+		return userCommandService.deleteUserInfoById(Long.parseLong(userId))
+				.flatMap(e -> ServerResponse.ok().bodyValue(e));
 	}
 
 }
