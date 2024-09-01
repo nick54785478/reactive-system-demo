@@ -3,7 +3,8 @@
 
 此專案是基於 SpringFlux 搭配六角形架構實作的 Auth Service 響應式系統範例，主要功能為透過 JWToken 進行使用者權限控制以及對使用者資料進行維護。
 架構的設計基於六角形架構，對資料的操作依據 CQRS (命令查詢職責分離) 將增修(Command) 與 查詢(Query) 分開成不同的 Service，以利後續維護。
-**實作此範例的目的主要是想嘗試 Spring WebFlux 及 R2DBC 的相關技術實作**，Spring WebFlux 相較於傳統的 MVC 能夠更好地處理大量並發請求而不會阻塞線程，適用於高效能、低延遲的應用場景，此特性非常契合微服務的建置。
+
+實作此範例的目的主要是想嘗試 Spring WebFlux 及 R2DBC 的相關技術實作，Spring WebFlux 相較於傳統的 MVC 能夠更好地處理大量並發請求而不會阻塞線程，適用於高效能、低延遲的應用場景，此特性非常契合微服務的建置。
 
 
 <br/>
@@ -114,6 +115,8 @@ networks:
 
 
 <h3>第三步: 使用Postman 或 WebClient 對其進行測試</h3>
+
+**註. 請先執行第二步，新增 Admin 角色資料，之後註冊新帳號，將DATA_OWNER 權限賦予給該帳號，開始執行後續。**
 
 > * Postman 作法:
 根據 iface.handler 中的 URL 去建立 Request (有些要記得設置 Token，透過 LoginHandler 內 /login 取得 JWToken )。
