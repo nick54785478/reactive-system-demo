@@ -1,22 +1,22 @@
 <h3>前言</h3>
 <hr />
 
-此專案是基於 SpringFlux 搭配六角形架構實作的 Auth Service 響應式系統範例，主要功能為透過 JWToken 進行使用者權限控制以及對使用者資料進行相關的新、刪、改、查。
-架構的設計基於六角形架構，對資料的操作主要是依據 CQRS (命令查詢職責分離) 將新增修改刪除(Command) 與 查詢(Query) 分開成不同的 Service。
-**實作此專案的目的主要是想嘗試 Spring WebFlux 及 R2DBC 的相關技術實作**，Spring WebFlux 相較於傳統的 MVC 能夠更好地處理大量並發請求而不會阻塞線程，適用於高效能、低延遲的應用場景，此特性非常契合微服務的建置。
+此專案是基於 SpringFlux 搭配六角形架構實作的 Auth Service 響應式系統範例，主要功能為透過 JWToken 進行使用者權限控制以及對使用者資料進行維護。
+架構的設計基於六角形架構，對資料的操作依據 CQRS (命令查詢職責分離) 將增修(Command) 與 查詢(Query) 分開成不同的 Service，以利後續維護。
+**實作此範例的目的主要是想嘗試 Spring WebFlux 及 R2DBC 的相關技術實作**，Spring WebFlux 相較於傳統的 MVC 能夠更好地處理大量並發請求而不會阻塞線程，適用於高效能、低延遲的應用場景，此特性非常契合微服務的建置。
 
 
 <br/>
 
 <h3>框架及外部依賴</h3>
-
+>* Java
 >* SpringBoot 3.3.2
 >* JDK 17
 >* MySQL
 
 <br/>
 		     
-<h3>角色設定</h3>
+<h3>角色設計</h3>
 
 > * ADMIN - 系統管理員 (可進行所有動作)。
 > * DATA_OWNER - 資料擁有者 (新增、修改、刪除、讀取所有"使用者"資料權限)。
@@ -114,5 +114,9 @@ networks:
 
 <h3>第三步: 使用Postman 或 WebClient 對其進行測試</h3>
 
+> * Postman 作法:
+根據 iface.handler 中的 URL 去建立 Request (有些要記得設置 Token，透過 LoginHandler 內 /login 取得 JWToken )。
+> * WebClient 作法:
+可參考 ReactiveSystemDemoApplicationTests，裡面有示範。
 
 
