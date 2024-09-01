@@ -6,10 +6,6 @@ CREATE TABLE IF NOT EXISTS user_info (
     `address` VARCHAR(255),
     `email` VARCHAR(100),
     `active_flag` CHAR(1),
-    `created_by` VARCHAR(20),
-    `created_date` DATETIME,
-    `last_updated_by` VARCHAR(20),
-    `last_updated_date` DATETIME,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -19,10 +15,6 @@ CREATE TABLE IF NOT EXISTS role_info (
     `type` VARCHAR(100),
     `description` VARCHAR(255),
     `active_flag` CHAR(1),
-    `created_by` VARCHAR(20),
-    `created_date` DATETIME,
-    `last_updated_by` VARCHAR(20),
-    `last_updated_date` DATETIME,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

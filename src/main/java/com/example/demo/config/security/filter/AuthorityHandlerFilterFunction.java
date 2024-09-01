@@ -59,7 +59,7 @@ public class AuthorityHandlerFilterFunction implements HandlerFilterFunction<Ser
 			return next.handle(request);
 		}
 
-		// DATA_OWNER 可以賦予使用者角色權限
+		// Data Owner 可以賦予使用者角色權限
 		if (path.contains("/auth") && (roleList.contains("DATA_OWNER"))) {
 			return next.handle(request);
 		}
