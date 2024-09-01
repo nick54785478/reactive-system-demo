@@ -92,6 +92,7 @@ public class UserService {
 			user.delete();
 			// 保存用戶
 			return userRepository.save(user).flatMap(e -> {
+				// 用戶失效後將其相關權限一併移除
 				return authRepository.deleteByUserId(e.getId())
 						.thenReturn("成功刪除一筆資料");
 			});
