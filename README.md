@@ -1,7 +1,7 @@
 <h3>背景</h3>
 <hr />
 
-此專案是基於 SpringFlux 搭配六角形架構實作的 Auth Service 響應式系統範例，主要功能為透過 JWToken 進行使用者權限控制以及對使用者資料進行維護。
+	此專案是基於 SpringFlux 搭配六角形架構實作的 Auth Service 響應式系統範例，主要功能為透過 JWToken 進行使用者權限控制以及對使用者資料進行維護。
 架構的設計基於六角形架構，對資料的操作依據 CQRS (命令查詢職責分離) 將增修(Command) 與 查詢(Query) 分開成不同的 Service，以利後續維護。
 
 實作此範例的目的主要是想嘗試 Spring WebFlux 及 R2DBC 相關技術框架的實作。
