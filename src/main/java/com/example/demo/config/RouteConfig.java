@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,13 +40,17 @@ public class RouteConfig {
 	 */
 	@Bean
 	public RouterFunction<ServerResponse> routes(UserHandler handler) {
-		return RouterFunctions.route(RequestPredicates.GET("/api/v1/users/{id}"), handler::getUser)
-				.andRoute(RequestPredicates.GET("/api/v1/users"), handler::getUserList)
+		return RouterFunctions.route(RequestPredicates.GET("/api/v1/users"), handler::getUserList)
+				.andRoute(
+						RequestPredicates.GET("/api/v1/users/queryByEmail")
+								.and(RequestPredicates.queryParam("email", email -> StringUtils.isNotBlank(email))),
+						handler::getUserByEmail)  // 有 RequestParam 的參數須注意，不能放在 /{id} 後面，不然會選擇該路徑
+				.andRoute(RequestPredicates.GET("/api/v1/users/{id}"), handler::getUser)
 				.andRoute(RequestPredicates.POST("/api/v1/users/register"), handler::createUser)
 				.andRoute(RequestPredicates.PUT("/api/v1/users/{id}"), handler::updateUser)
 				.andRoute(RequestPredicates.DELETE("/api/v1/users/{id}"), handler::deleteUser)
-				.filter(new AuthorityHandlerFilterFunction())	// Authority Filter
-				.filter(new JwtHandlerFilterFunction(jwtTokenUtil));  // JWToken Filter
+				.filter(new AuthorityHandlerFilterFunction()) // Authority Filter
+				.filter(new JwtHandlerFilterFunction(jwtTokenUtil)); // JWToken Filter
 		// Filter 順序由下往上，越下面的會先進入
 	}
 
@@ -59,8 +64,8 @@ public class RouteConfig {
 				.andRoute(RequestPredicates.POST("/api/v1/roles"), handler::createRole)
 				.andRoute(RequestPredicates.PUT("/api/v1/roles/{id}"), handler::updateRole)
 				.andRoute(RequestPredicates.DELETE("/api/v1/roles/{id}"), handler::deleteRole)
-				.filter(new AuthorityHandlerFilterFunction())	// Authority Filter
-				.filter(new JwtHandlerFilterFunction(jwtTokenUtil));  // JWToken Filter;
+				.filter(new AuthorityHandlerFilterFunction()) // Authority Filter
+				.filter(new JwtHandlerFilterFunction(jwtTokenUtil)); // JWToken Filter;
 	}
 
 	/**

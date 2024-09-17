@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.example.demo.domain.share.command.GenerateJWTokenCommand;
-import com.example.demo.iface.dto.CreatedJwTokenResource;
+import com.example.demo.iface.dto.JwTokenCreatedResource;
 import com.example.demo.service.JWTokenCommandService;
 
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ public class LoginHandler {
 
 		// flatMap 用於處理非同步流中的元素並將其對應到另一個 Publisher。
 		return loginMono.flatMap(command -> jwTokenCommandService.generateJWToken(command))
-				.flatMap(token -> ServerResponse.ok().bodyValue(new CreatedJwTokenResource(token)));
+				.flatMap(token -> ServerResponse.ok().bodyValue(new JwTokenCreatedResource(token)));
 	}
 
 }

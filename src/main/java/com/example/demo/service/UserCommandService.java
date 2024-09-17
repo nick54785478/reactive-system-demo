@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.domain.service.UserService;
 import com.example.demo.domain.user.command.CreateUserCommand;
 import com.example.demo.domain.user.command.UpdateUserCommand;
+import com.example.demo.iface.dto.UserCreatedResource;
+import com.example.demo.iface.dto.UserDeletedResource;
+import com.example.demo.iface.dto.UserUpdatedResource;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +33,8 @@ public class UserCommandService {
 	 * @param command
 	 * @return 成功訊息
 	 */
-	public Mono<String> createUserInfo(CreateUserCommand command) {
-		return userService.createUser(command);
+	public Mono<UserCreatedResource> createUserInfo(CreateUserCommand command) {
+		return userService.createUser(command).map(message -> new UserCreatedResource(201, message));
 	}
 
 	/**
@@ -40,8 +43,8 @@ public class UserCommandService {
 	 * @param command
 	 * @return 成功訊息
 	 */
-	public Mono<String> updateUserInfo(UpdateUserCommand command) {
-		return userService.updateUser(command);
+	public Mono<UserUpdatedResource> updateUserInfo(UpdateUserCommand command) {
+		return userService.updateUser(command).map(message -> new UserUpdatedResource(200, message));
 	}
 
 	/**
@@ -50,8 +53,8 @@ public class UserCommandService {
 	 * @param id
 	 * @return 成功訊息
 	 */
-	public Mono<String> deleteUserInfoById(Long id) {
-		return userService.deleteUser(id);
+	public Mono<UserDeletedResource> deleteUserInfoById(Long id) {
+		return userService.deleteUser(id).map(message -> new UserDeletedResource(200, message));
 	}
 
 }

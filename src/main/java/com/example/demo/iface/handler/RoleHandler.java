@@ -8,7 +8,10 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.example.demo.domain.role.command.CreateRoleCommand;
 import com.example.demo.domain.role.command.UpdateRoleCommand;
 import com.example.demo.domain.share.RoleInfoData;
+import com.example.demo.iface.dto.RoleCreatedResource;
+import com.example.demo.iface.dto.RoleDeletedResource;
 import com.example.demo.iface.dto.RoleInfoResource;
+import com.example.demo.iface.dto.RoleUpdatedResource;
 import com.example.demo.iface.dto.UserInfoResource;
 import com.example.demo.service.RoleCommandService;
 import com.example.demo.service.RoleQueryService;
@@ -40,8 +43,8 @@ public class RoleHandler {
 		log.info("[Role Handler] method: GET, path:/api/vi/roles/{}", roleId);
 
 		Mono<RoleInfoData> RoleMono = roleQueryService.getRoleById(Long.parseLong(roleId));
-		return RoleMono.flatMap(role -> ServerResponse.ok().bodyValue(
-				BaseDataTransformer.transformData(role, UserInfoResource.class)))
+		return RoleMono.flatMap(
+				role -> ServerResponse.ok().bodyValue(BaseDataTransformer.transformData(role, UserInfoResource.class)))
 				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 
@@ -73,7 +76,7 @@ public class RoleHandler {
 		Mono<CreateRoleCommand> RoleMono = request.bodyToMono(CreateRoleCommand.class);
 		// flatMap 用於處理非同步流中的元素並將其對應到另一個 Publisher。
 		return RoleMono.flatMap(roleCommandService::createRoleInfo)
-				.flatMap(e -> ServerResponse.ok().bodyValue(e));
+				.flatMap(message -> ServerResponse.ok().bodyValue(new RoleCreatedResource(201, message)));
 	}
 
 	/**
@@ -86,7 +89,7 @@ public class RoleHandler {
 		Mono<UpdateRoleCommand> roleMono = request.bodyToMono(UpdateRoleCommand.class);
 		log.info("[Role Handler] method: PUT, path:/api/vi/roles");
 		return roleMono.flatMap(roleCommandService::updateRoleInfo)
-				.flatMap(Role -> ServerResponse.ok().bodyValue(Role));
+				.flatMap(message -> ServerResponse.ok().bodyValue(new RoleUpdatedResource(200, message)));
 	}
 
 	/**
@@ -98,7 +101,8 @@ public class RoleHandler {
 	public Mono<ServerResponse> deleteRole(ServerRequest request) {
 		String roleId = request.pathVariable("id");
 		log.info("[Role Handler] method: DELETE, path:/api/vi/roles/{}", roleId);
-		return roleCommandService.deleteRoleInfoById(Long.parseLong(roleId)).then(ServerResponse.ok().build());
+		return roleCommandService.deleteRoleInfoById(Long.parseLong(roleId))
+				.flatMap(message -> ServerResponse.ok().bodyValue(new RoleDeletedResource(200, message)));
 	}
 
 }

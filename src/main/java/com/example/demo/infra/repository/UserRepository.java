@@ -7,12 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.domain.user.aggregate.UserInfo;
 
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Mono;;
 
 @Repository
 public interface UserRepository extends R2dbcRepository<UserInfo, Long> {
 
 	Mono<UserInfo> findByUsername(String username);
+
+	Mono<UserInfo> findByEmail(String email);
 
 	@Modifying
 	@Query(value = "UPDATE user_info SET active_flag = 'N' WHERE id = :id")

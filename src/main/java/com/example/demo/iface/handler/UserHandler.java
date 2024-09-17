@@ -66,27 +66,61 @@ public class UserHandler {
 	}
 
 	/**
+	 * 透過 email 取得 User 資料
+	 * 
+	 * @param request
+	 * @return 響應資料
+	 */
+	public Mono<ServerResponse> getUserByEmail(ServerRequest request) {
+
+		// 上下文需在 Handler 取得，否則會有多個 ContextView
+		return Mono.deferContextual(ctx -> {
+			// 從上下文取得 使用者資訊。
+			List<String> roleList = ctx.get(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue());
+			String email = request.queryParam("email").orElse("");
+			log.info("email:{}", email);
+
+			Mono<UserInfoData> userMono = userQueryService.getUserByEmail(email);
+
+			return userMono.flatMap(userData -> {
+				// 以下條件放行:
+				// 1. Token 中的 email 相等、
+				// 2. ADMIN 或 DATA_OWNER 則放行。
+				if ((StringUtils.equals(userData.getEmail(), ctx.get(JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue())))
+						|| (roleList.contains("ADMIN")) || roleList.contains("DATA_OWNER")) {
+					return ServerResponse.ok()
+							.bodyValue(BaseDataTransformer.transformData(userData, UserInfoResource.class));
+				}
+
+				return ServerResponse.noContent().build();
+			});
+		});
+
+	}
+
+	/**
 	 * 取得 User 資料清單
 	 * 
 	 * @param request
 	 * @return 響應資料
 	 */
 	public Mono<ServerResponse> getUserList(ServerRequest request) {
-		
+
 		// 上下文需在 Handler 取得，否則會有多個 ContextView
 		return Mono.deferContextual(ctx -> {
 			// 從上下文取得 使用者資訊。
 			String username = ctx.get(JwtConstants.JWT_CLAIMS_KEY_USER.getValue());
 			List<String> roleList = ctx.get(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue());
 			Flux<UserInfoData> userList = userQueryService.getUserList();
-			
+
 			// 沒有權限，只能查自己
 			if (roleList.isEmpty()) {
 				// 過濾自己的使用者資料
-				Flux<UserInfoData> filteredList = userList.filter(user -> StringUtils.equals(username, user.getUsername()));
+				Flux<UserInfoData> filteredList = userList
+						.filter(user -> StringUtils.equals(username, user.getUsername()));
 				return ServerResponse.ok().body(filteredList, UserInfoResource.class);
 			}
-			
+
 			return userList.hasElements().flatMap(hasElements -> {
 				if (hasElements) {
 					// 有值傳回
@@ -119,8 +153,7 @@ public class UserHandler {
 	 */
 	public Mono<ServerResponse> updateUser(ServerRequest request) {
 		Mono<UpdateUserCommand> userMono = request.bodyToMono(UpdateUserCommand.class);
-		return userMono.flatMap(userCommandService::updateUserInfo)
-				.flatMap(e -> ServerResponse.ok().bodyValue(e));
+		return userMono.flatMap(userCommandService::updateUserInfo).flatMap(e -> ServerResponse.ok().bodyValue(e));
 	}
 
 	/**

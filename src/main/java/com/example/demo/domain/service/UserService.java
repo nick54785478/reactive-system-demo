@@ -27,19 +27,29 @@ public class UserService {
 	private AuthRepository authRepository;
 
 	/**
-	 * 根據使用者ID 查詢使用者
+	 * 根據使用者 ID 查詢使用者
 	 * 
 	 * @param id - 使用者代號
-	 * @return Mono<User>
+	 * @return Mono<UserInfo>
 	 */
 	public Mono<UserInfo> getUserById(Long id) {
 		return userRepository.findById(id);
+	}
+	
+	/**
+	 * 根據 Email 查詢使用者
+	 * 
+	 * @param email - 使用者信箱
+	 * @return Mono<UserInfo>
+	 */
+	public Mono<UserInfo> getUserByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 	/**
 	 * 取得使用者清單
 	 * 
-	 * @return Flux<User>
+	 * @return Flux<UserInfo>
 	 */
 	public Flux<UserInfo> getUserList() {
 		return userRepository.findAll();

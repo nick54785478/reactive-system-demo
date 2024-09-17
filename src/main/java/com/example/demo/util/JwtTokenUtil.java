@@ -40,9 +40,10 @@ public class JwtTokenUtil {
 	 * @param roleList - 角色權限清單
 	 * @return JWToken
 	 */
-	public String generateToken(String username, List<String> role) {
+	public String generateToken(String username, String email, List<String> role) {
 		log.debug("有效時間: " + expiration);
 		HashMap<String, Object> map = new HashMap<>();
+		map.put(JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(), email);
 		map.put(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), role);
 		log.info("map: {}", map);
 
@@ -81,6 +82,17 @@ public class JwtTokenUtil {
 	 */
 	public List<String> getRoleList(String token) {
 		return (List<String>) getTokenBody(token).get(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue());
+	}
+	
+
+	/**
+	 * 從 token 中取得使用者信箱
+	 * 
+	 * @param token
+	 * @return 使用者信箱
+	 */
+	public String getEmail(String token) {
+		return (String) getTokenBody(token).get(JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue());
 	}
 
 	/**

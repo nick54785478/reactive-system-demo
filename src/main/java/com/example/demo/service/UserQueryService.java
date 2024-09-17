@@ -34,12 +34,22 @@ public class UserQueryService {
 	 * 透過 ID 取得使用者資料
 	 * 
 	 * @param id
-	 * @param username
 	 * @return 使用者資訊
 	 */
 	public Mono<UserInfoData> getUserById(Long id) {
 		// 透過 map 將其轉換為 UserInfoData (非領域資料)
 		return userService.getUserById(id).map(e -> BaseDataTransformer.transformData(e, UserInfoData.class));
+	}
+	
+	/**
+	 * 透過 Email 取得使用者資料
+	 * 
+	 * @param email
+	 * @return 使用者資訊
+	 */
+	public Mono<UserInfoData> getUserByEmail(String email) {
+		// 透過 map 將其轉換為 UserInfoData (非領域資料)
+		return userService.getUserByEmail(email).map(e -> BaseDataTransformer.transformData(e, UserInfoData.class));
 	}
 
 }

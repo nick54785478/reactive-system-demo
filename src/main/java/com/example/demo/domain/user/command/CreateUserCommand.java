@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateUserCommand {
 
-	private Long id;
-
 	private String name;
 
 	private String email; // 信箱

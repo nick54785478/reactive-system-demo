@@ -15,7 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.demo.iface.dto.CreateJwTokenResource;
-import com.example.demo.iface.dto.CreatedJwTokenResource;
+import com.example.demo.iface.dto.JwTokenCreatedResource;
 import com.example.demo.iface.dto.UserInfoResource;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +34,8 @@ class ReactiveSystemDemoApplicationTests {
 		// 取得 JWToken
 		WebClient client = WebClient.builder().baseUrl("http://localhost:8080/api/v1").build();
 		CreateJwTokenResource resource = new CreateJwTokenResource("nick123", "password123");
-		Mono<CreatedJwTokenResource> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
-				.bodyToMono(CreatedJwTokenResource.class); // 將響應體解析為 Mono<CreatedJwTokenResource>。
+		Mono<JwTokenCreatedResource> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
+				.bodyToMono(JwTokenCreatedResource.class); // 將響應體解析為 Mono<CreatedJwTokenResource>。
 		
 		result.doOnSuccess(response -> {
 			token = response.getToken();			
@@ -62,8 +62,8 @@ class ReactiveSystemDemoApplicationTests {
 		Thread thread = new Thread(() -> {
 			WebClient client = WebClient.builder().baseUrl("http://localhost:8080/api/v1").build();
 			CreateJwTokenResource resource = new CreateJwTokenResource("nick123", "password123");
-			Mono<CreatedJwTokenResource> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
-					.bodyToMono(CreatedJwTokenResource.class); // 將響應體解析為 Mono<CreatedJwTokenResource>。
+			Mono<JwTokenCreatedResource> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
+					.bodyToMono(JwTokenCreatedResource.class); // 將響應體解析為 Mono<CreatedJwTokenResource>。
 			
 			result.doOnSuccess(response -> {
 				log.info("Login successfully and get token:{}", response.getToken());

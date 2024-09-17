@@ -7,6 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.service.JWTokenService;
 import com.example.demo.domain.share.command.GenerateJWTokenCommand;
+import com.example.demo.domain.user.aggregate.UserInfo;
+import com.example.demo.exception.ValidationException;
+import com.example.demo.infra.repository.UserRepository;
+import com.example.demo.util.PasswordUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +22,8 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class JWTokenCommandService {
 
-	JWTokenService jwTokenService;
+	private JWTokenService jwTokenService;
+	private UserRepository userRepository;
 
 	/**
 	 * 建立 JWToken
@@ -26,7 +31,20 @@ public class JWTokenCommandService {
 	 * @return JWToken
 	 */
 	public Mono<String> generateJWToken(GenerateJWTokenCommand command) {
-		return jwTokenService.generateToken(command);
+
+		Mono<UserInfo> userMono = userRepository.findByUsername(command.getUsername());
+		
+		return userMono.flatMap(userInfo -> {
+						
+			// 驗證密碼
+			var isMatch = PasswordUtil.checkPassword(command.getPassword(), userInfo.getPassword());
+			if (!isMatch) {
+				log.error("Password does not match");
+				throw new ValidationException(401, "Password does not match");// 比對失敗
+			}
+			return jwTokenService.generateToken(userInfo.getId(), command.getUsername(), userInfo.getEmail());
+		});
+
 	}
 
 }

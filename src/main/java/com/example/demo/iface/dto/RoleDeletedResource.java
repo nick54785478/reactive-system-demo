@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreatedJwTokenResource {
+public class RoleDeletedResource {
 
-	private String token;
-
+	private int code;
+	
+	private String message;
 }
