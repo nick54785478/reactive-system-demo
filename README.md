@@ -127,9 +127,9 @@ networks:
 <br />
 
 
-<h3>第三步: 使用Postman 或 WebClient 對其進行測試</h3>
+<h3>第三步: 使用 Postman 或 WebClient 對其進行測試</h3>
 
-**註. 請先執行第二步，新增 Admin 角色資料，之後註冊新帳號，將DATA_OWNER 權限賦予給該帳號，開始執行後續。**
+**註. 請先執行第二步，新增 Admin 角色資料，之後註冊新帳號，將 DATA_OWNER 權限賦予給該帳號，開始執行後續。**
 
 > * Postman 作法:
 根據 iface.handler 中的 URL 去建立 Request (有些要記得設置 Token，透過 LoginHandler 內 /login 取得 JWToken )。
