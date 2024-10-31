@@ -44,7 +44,7 @@ public class RoleHandler {
 
 		Mono<RoleInfoData> RoleMono = roleQueryService.getRoleById(Long.parseLong(roleId));
 		return RoleMono.flatMap(
-				role -> ServerResponse.ok().bodyValue(BaseDataTransformer.transformData(role, UserInfoResource.class)))
+				role -> ServerResponse.ok().bodyValue(BaseDataTransformer.transformData(role, RoleInfoResource.class)))
 				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 
