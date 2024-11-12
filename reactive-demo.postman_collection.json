@@ -1,0 +1,644 @@
+{
+	"info": {
+		"_postman_id": "eaaee464-f2ba-429d-a6ee-c132ef58ac65",
+		"name": "reactive-demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20865420"
+	},
+	"item": [
+		{
+			"name": "Container (port:8088) 測試",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"nick123@example.com\",\r\n    \"password\":\"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "system login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"system\",\r\n    \"password\":\"system123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "新增 使用者資料",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nick\",\r\n\t\"email\": \"nick123@example.com\", // 信箱\r\n\t\"username\":\"nick123@example.com\", // 帳號\r\n    \"password\":\"password123\", // 密碼\r\n\t\"address\":\"台北市內湖區\"\t\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/v1/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "透過 email 取得 User 資料",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W10sImVtYWlsIjoibmljazEyM0BleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6Im5pY2sxMjNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MjY2NjA1NDEsImV4cCI6MTcyNjY2NDE0MX0.PC8Vp2pAxXClE2U2vquZjxTVz_iMJs76sq3w6MNPp5c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/v1/users/queryByEmail?email=nick123@example.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"queryByEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "nick123@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"nick123@example.com\",\r\n    \"password\":\"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"system\",\r\n    \"password\":\"system123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增 使用者資料",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Max\",\r\n\t\"email\": \"max123@example.com\", // 信箱\r\n\t\"username\":\"max123@example.com\", // 帳號\r\n    \"password\":\"password123\", // 密碼\r\n\t\"address\":\"台北市南港區\"\t\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增 角色資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTczMDM1OTM0NSwiZXhwIjoyMDQ1NzE5MzQ1fQ.ljsYVvRviXKE8ovr0Qa6zBzynUavgyEfWh0wkQvY0fU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"DATA_READER\",\r\n\t\"type\": \"USER\", \r\n\t\"description\":\"可讀取所有使用者資料\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/roles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新角色資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTczMDM1OTM0NSwiZXhwIjoyMDQ1NzE5MzQ1fQ.ljsYVvRviXKE8ovr0Qa6zBzynUavgyEfWh0wkQvY0fU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"DATA_READER\",\r\n\t\"type\": \"USER\", \r\n\t\"description\":\"讀取所有使用者資料\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/roles/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新 使用者資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTcyNjYwMDQyNywiZXhwIjoxNzI2NjA0MDI3fQ.VvM_6tVHnXdoPbN168YWczyvH2A2sadLXiiDSNk5LoU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2,\r\n    \"name\": \"Nick\",\r\n\t\"email\": \"nick123@example.com\", // 信箱\r\n\t\"username\":\"nick123@example.com\", // 帳號\r\n    \"password\":\"password123\", // 密碼\r\n\t\"address\":\"新北市淡水區\"\t\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "賦予使用者權限",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTczMDM1OTU3MSwiZXhwIjoyMDQ1NzE5NTcxfQ.ICdRUL4Mc15Uff_xyhX_xBzwNO0xnfn3PqtCOJvX8T0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \t\"username\":\"nick123@example.com\", // 帳號\r\n    \"roleList\": [\r\n        2\r\n    ] \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "透過 email 取得 User 資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJEQVRBX09XTkVSIl0sImVtYWlsIjoibmljazEyM0BleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6Im5pY2sxMjNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzAzNTk2MjIsImV4cCI6MjA0NTcxOTYyMn0.JAc6Z7Dge_Ztae5o-TM1jFkhXALfF4QMkoKfFYK-dPM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/queryByEmail?email=max123@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"queryByEmail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "max123@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除使用者資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJEQVRBX09XTkVSIl0sImlzcyI6IlNZU1RFTSIsInN1YiI6Im5pY2sxMjMiLCJpYXQiOjE3MjUyMTA2MDgsImV4cCI6MTcyNTIxNDIwOH0.UCE3LmzCPiVIu2hwwaqLCrWbe4opHWr9b22jXlOgeMk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \t\"username\":\"frank123@example.com\", // 帳號\r\n    \"roleList\": [\r\n        2\r\n    ] \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除角色資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTcyNjYwMTQ2NiwiZXhwIjoxNzI2NjA1MDY2fQ.quLJByQV7hY--KY0S0Kvzd_RiyUu63uKj8h3WGRSpJI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/roles/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "透過 userId 取得 User 資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJEQVRBX09XTkVSIl0sImVtYWlsIjoibmljazEyM0BleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6Im5pY2sxMjNAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzAzNTk2MjIsImV4cCI6MjA0NTcxOTYyMn0.JAc6Z7Dge_Ztae5o-TM1jFkhXALfF4QMkoKfFYK-dPM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "透過 RoleId 取得 Role 資料",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTczMDM1OTY1OSwiZXhwIjoyMDQ1NzE5NjU5fQ.bZjyWbsquRds7StSg37Ou2MzF2qqkJRlN8coVikyp_Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/roles/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得 User 資料清單",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTczMDM1OTY1OSwiZXhwIjoyMDQ1NzE5NjU5fQ.bZjyWbsquRds7StSg37Ou2MzF2qqkJRlN8coVikyp_Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得 Role 資料清單",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJlbWFpbCI6InN5c3RlbUBleGFtcGxlLmNvbSIsImlzcyI6IlNZU1RFTSIsInN1YiI6InN5c3RlbSIsImlhdCI6MTczMDM1OTY1OSwiZXhwIjoyMDQ1NzE5NjU5fQ.bZjyWbsquRds7StSg37Ou2MzF2qqkJRlN8coVikyp_Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/roles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
