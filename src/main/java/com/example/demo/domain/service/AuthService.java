@@ -9,7 +9,6 @@ import com.example.demo.domain.auth.aggregate.Auth;
 import com.example.demo.domain.auth.command.CreateAuthCommand;
 import com.example.demo.domain.user.aggregate.UserInfo;
 import com.example.demo.infra.repository.AuthRepository;
-import com.example.demo.infra.repository.RoleRepository;
 import com.example.demo.infra.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -21,9 +20,8 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class AuthService {
 
-	AuthRepository authRepository;
-	UserRepository userRepository;
-	RoleRepository roleRepository;
+	private AuthRepository authRepository;
+	private UserRepository userRepository;
 
 	/**
 	 * 建立使用者特定權限

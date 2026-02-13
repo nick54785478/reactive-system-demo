@@ -1,6 +1,5 @@
 package com.example.demo.domain.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.user.aggregate.UserInfo;
@@ -10,6 +9,7 @@ import com.example.demo.infra.exception.exception.ValidationException;
 import com.example.demo.infra.repository.AuthRepository;
 import com.example.demo.infra.repository.UserRepository;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,11 +19,10 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class UserService {
 
-	@Autowired
 	private UserRepository userRepository;
-	@Autowired
 	private AuthRepository authRepository;
 
 	/**
@@ -35,7 +34,7 @@ public class UserService {
 	public Mono<UserInfo> getUserById(Long id) {
 		return userRepository.findById(id);
 	}
-	
+
 	/**
 	 * 根據 Email 查詢使用者
 	 * 
@@ -103,8 +102,7 @@ public class UserService {
 			// 保存用戶
 			return userRepository.save(user).flatMap(e -> {
 				// 用戶失效後將其相關權限一併移除
-				return authRepository.deleteByUserId(e.getId())
-						.thenReturn("成功刪除一筆資料");
+				return authRepository.deleteByUserId(e.getId()).thenReturn("成功刪除一筆資料");
 			});
 		});
 	}

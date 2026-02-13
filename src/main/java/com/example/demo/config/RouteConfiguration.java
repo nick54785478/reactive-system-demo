@@ -20,11 +20,11 @@ import com.example.demo.iface.handler.UserHandler;
  * Functional Endpoint 配置
  */
 @Configuration(proxyBeanMethods = false)
-public class RouteConfig {
+public class RouteConfiguration {
 
 	private final JwTokenManagerPort jwTokenManager;
 
-	public RouteConfig(JwTokenManagerPort jwTokenManager) {
+	public RouteConfiguration(JwTokenManagerPort jwTokenManager) {
 		this.jwTokenManager = jwTokenManager;
 	}
 

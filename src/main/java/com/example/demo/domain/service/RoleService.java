@@ -1,6 +1,5 @@
 package com.example.demo.domain.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.role.aggregate.RoleInfo;
@@ -8,6 +7,7 @@ import com.example.demo.domain.role.command.CreateRoleCommand;
 import com.example.demo.domain.role.command.UpdateRoleCommand;
 import com.example.demo.infra.repository.RoleRepository;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,9 +17,9 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class RoleService {
 
-	@Autowired
 	private RoleRepository roleRepository;
 
 	/**
