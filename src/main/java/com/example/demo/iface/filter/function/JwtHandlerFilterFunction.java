@@ -45,10 +45,15 @@ public class JwtHandlerFilterFunction implements HandlerFilterFunction<ServerRes
 		if (path.contains("/users/register") && (method.equals(HttpMethod.POST))) {
 			return next.handle(request);
 		}
-		
+
 		log.info("進入 JwtHandlerFilterFunction，開始檢核 JWToken");
 
 		String authHeader = request.headers().firstHeader(HttpHeaders.AUTHORIZATION);
+
+		if (authHeader == null) {
+			return ServerResponse.status(HttpStatus.UNAUTHORIZED)
+					.bodyValue(new BaseExceptionResponse(401, "未攜帶Token，驗證發生錯誤"));
+		}
 
 		// 提取 JWT（去掉前面的 "Bearer " 部分）
 		String token = authHeader.substring(JwtConstants.JWT_PREFIX.getValue().length());
