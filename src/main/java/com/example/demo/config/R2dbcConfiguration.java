@@ -13,6 +13,9 @@ import com.github.jasync.sql.db.mysql.pool.MySQLConnectionFactory;
 import io.r2dbc.spi.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * R2DBC Configuration
+ */
 @Slf4j
 @Configuration
 public class R2dbcConfiguration extends AbstractR2dbcConfiguration {
@@ -36,6 +39,5 @@ public class R2dbcConfiguration extends AbstractR2dbcConfiguration {
 				"localhost", port, password, database, sslConfiguration, Charset.forName("UTF-8"));
 		return new JasyncConnectionFactory(new MySQLConnectionFactory(configuration));
 	}
-
 
 }
