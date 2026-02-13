@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import com.example.demo.config.security.JwtConstants;
-import com.example.demo.domain.share.UserInfoData;
+import com.example.demo.application.service.UserCommandService;
+import com.example.demo.application.service.UserQueryService;
+import com.example.demo.domain.share.dto.UserInfoData;
 import com.example.demo.domain.user.command.CreateUserCommand;
 import com.example.demo.domain.user.command.UpdateUserCommand;
 import com.example.demo.iface.dto.UserInfoResource;
-import com.example.demo.service.UserCommandService;
-import com.example.demo.service.UserQueryService;
+import com.example.demo.infra.jwt.shared.constant.JwtConstants;
 import com.example.demo.util.BaseDataTransformer;
 
 import lombok.NoArgsConstructor;

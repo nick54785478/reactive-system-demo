@@ -5,16 +5,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.example.demo.application.service.RoleCommandService;
+import com.example.demo.application.service.RoleQueryService;
 import com.example.demo.domain.role.command.CreateRoleCommand;
 import com.example.demo.domain.role.command.UpdateRoleCommand;
-import com.example.demo.domain.share.RoleInfoData;
+import com.example.demo.domain.share.dto.RoleInfoData;
 import com.example.demo.iface.dto.RoleCreatedResource;
 import com.example.demo.iface.dto.RoleDeletedResource;
 import com.example.demo.iface.dto.RoleInfoResource;
 import com.example.demo.iface.dto.RoleUpdatedResource;
-import com.example.demo.iface.dto.UserInfoResource;
-import com.example.demo.service.RoleCommandService;
-import com.example.demo.service.RoleQueryService;
 import com.example.demo.util.BaseDataTransformer;
 
 import lombok.NoArgsConstructor;

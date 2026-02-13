@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.user.aggregate.UserInfo;
 import com.example.demo.domain.user.command.CreateUserCommand;
 import com.example.demo.domain.user.command.UpdateUserCommand;
-import com.example.demo.exception.ValidationException;
+import com.example.demo.infra.exception.exception.ValidationException;
 import com.example.demo.infra.repository.AuthRepository;
 import com.example.demo.infra.repository.UserRepository;
 
