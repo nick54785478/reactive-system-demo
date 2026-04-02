@@ -42,17 +42,16 @@ public class AuthHandler {
 	public Mono<ServerResponse> validateToken(ServerRequest request) {
 		log.info("[Auth Handler] method: POST, path:/api/v1/auth/validate");
 		// 改從 Header 拿 Token
-	    String token = request.headers().firstHeader("Authorization");
-	    if (token != null && token.startsWith("Bearer ")) {
-	        token = token.substring(7);
-	    }
+		String token = request.headers().firstHeader("Authorization");
+		if (token != null && token.startsWith("Bearer ")) {
+			token = token.substring(7);
+		}
 
-	    log.info("[Auth Handler] 拿到 Header Token: {}", token);
+		log.info("[Auth Handler] 拿到 Header Token: {}", token);
 
-	    ValidateTokenCommand command = new ValidateTokenCommand(token);
-	    return jwTokenCommandService.validateToken(command)
-	            .flatMap(resource -> ServerResponse.ok().bodyValue(resource))
-	            .switchIfEmpty(ServerResponse.notFound().build());
+		ValidateTokenCommand command = new ValidateTokenCommand(token);
+		return jwTokenCommandService.validateToken(command).flatMap(resource -> ServerResponse.ok().bodyValue(resource))
+				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 
 }

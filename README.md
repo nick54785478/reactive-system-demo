@@ -85,7 +85,9 @@ networks:
 
 
 
+
 <h3>第二步: 建立表及新增相關資料</h3>
+
 相關表與資料如下:
 
 ```
@@ -131,8 +133,10 @@ networks:
 
 **註. 請先執行第二步，新增 Admin 角色資料，之後註冊新帳號，將 DATA_OWNER 權限賦予給該帳號，開始執行後續。**
 
+
 > * Postman 作法:
 根據 iface.handler 中的 URL 去建立 Request (有些要記得設置 Token，透過 LoginHandler 內 /login 取得 JWToken )。
+
 > * WebClient 作法:
 可參考 ReactiveSystemDemoApplicationTests，裡面有示範。
 
