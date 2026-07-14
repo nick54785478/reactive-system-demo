@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,15 +24,17 @@ import lombok.ToString;
 @Getter
 @Entity
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "role_info")
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoleInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private String tenant; // 租戶
 
 	private String name;
 
@@ -42,11 +45,14 @@ public class RoleInfo {
 	private String activeFlag = "Y"; // 是否有效
 	
 
-	public void create(CreateRoleCommand command) {
-		this.name = command.getName();
-		this.description = command.getDescription();
-		this.type = command.getType();
-		this.activeFlag = RoleActive.ACTIVE.getValue();
+	public static RoleInfo create(CreateRoleCommand command) {
+		RoleInfo roleInfo = new RoleInfo();
+		roleInfo.tenant = command.getTenant();
+		roleInfo.name = command.getName();
+		roleInfo.description = command.getDescription();
+		roleInfo.type = command.getType();
+		roleInfo.activeFlag = RoleActive.ACTIVE.getValue();
+		return roleInfo;
 	}
 
 	public void update(UpdateRoleCommand command) {

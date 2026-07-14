@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.auth.command.CreateAuthCommand;
 import com.example.demo.domain.service.AuthService;
-import com.example.demo.iface.dto.ValidateTokenCommand;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

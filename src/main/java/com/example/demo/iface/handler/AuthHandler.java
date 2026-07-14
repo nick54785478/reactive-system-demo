@@ -32,7 +32,7 @@ public class AuthHandler {
 		Mono<CreateAuthCommand> createMono = request.bodyToMono(CreateAuthCommand.class);
 
 		// flatMap 用於處理非同步流中的元素並將其對應到另一個 Publisher。
-		return createMono.flatMap(command -> authCommandService.grantAuth(command))
+		return createMono.flatMap(authCommandService::grantAuth)
 				.flatMap(e -> ServerResponse.ok().bodyValue(e));
 	}
 

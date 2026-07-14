@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class CreateRoleCommand {
 
 	private Long id;
+	
+	private String tenant;
 
 	private String name;
 	

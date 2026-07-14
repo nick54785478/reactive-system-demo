@@ -29,7 +29,7 @@ public class LoginHandler {
 		Mono<GenerateJwTokenCommand> loginMono = request.bodyToMono(GenerateJwTokenCommand.class);
 
 		// flatMap 用於處理非同步流中的元素並將其對應到另一個 Publisher。
-		return loginMono.flatMap(command -> jwTokenCommandService.generateJWToken(command))
+		return loginMono.flatMap(jwTokenCommandService::generateJWToken)
 				.flatMap(token -> ServerResponse.ok().bodyValue(new JwTokenCreatedResource(token)));
 	}
 

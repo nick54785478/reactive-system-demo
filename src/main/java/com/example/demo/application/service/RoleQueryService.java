@@ -24,8 +24,8 @@ public class RoleQueryService {
 	 * 
 	 * @return 角色清單 
 	 */
-	public Flux<RoleInfoData> getRoleList() {
-		return roleService.getRoleList() // 取得 Flux<RoleInfo>
+	public Flux<RoleInfoData> getRoleList(String tenant) {
+		return roleService.getRoleList(tenant) // 取得 Flux<RoleInfo>
 				// 透過 map 將其轉換為 RoleInfoData (非領域資料)
 				.map(e -> BaseDataTransformer.transformData(e, RoleInfoData.class));
 	}

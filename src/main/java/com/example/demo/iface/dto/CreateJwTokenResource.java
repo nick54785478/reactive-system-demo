@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateJwTokenResource {
+	
+	private String tenant;
 
 	private String username;
 

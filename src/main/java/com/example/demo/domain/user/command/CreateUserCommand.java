@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateUserCommand {
+	
+	private String tenant;
 
 	private String name;
 

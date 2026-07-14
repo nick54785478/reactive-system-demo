@@ -21,7 +21,7 @@ public class GetJWTokenClient {
 		CountDownLatch latch = new CountDownLatch(1);
 
 		// 新增 請求
-		CreateJwTokenResource resource = new CreateJwTokenResource("alice123", "alice123");
+		CreateJwTokenResource resource = new CreateJwTokenResource("TSMC", "alice123", "alice123");
 
 		Mono<String> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
 				.bodyToMono(String.class); // 將響應體解析為 Mono<String>。

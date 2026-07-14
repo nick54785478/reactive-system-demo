@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TokenValidatedResource {
+	
+	private String tenant;
 
 	private String username;
 

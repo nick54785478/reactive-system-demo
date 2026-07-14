@@ -63,13 +63,16 @@ public class JwtHandlerFilterFunction implements HandlerFilterFunction<ServerRes
 			if (jwTokenManager.validateToken(token)) {
 				// 將用戶名、角色儲存到當前請求屬性中，以供後續使用。
 				// 如果 JWT 有效，從中取得使用者帳號
+				
+				String tenant = jwTokenManager.getTenant(token);
 				String username = jwTokenManager.getUsername(token);
 				String email = jwTokenManager.getEmail(token);
 				List<String> roleList = jwTokenManager.getRoleList(token);
 				request.attributes().put(JwtConstants.JWT_CLAIMS_KEY_USER.getValue(), username);
 				request.attributes().put(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), roleList);
 				request.attributes().put(JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(), email);
-				log.info("從 JWToken 取得資料，username:{}, roleList:{}, email:{}", username, roleList, email);
+				request.attributes().put(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue(), tenant);
+				log.info("從 JWToken 取得資料，tenant:{}, username:{}, roleList:{}, email:{}", tenant, username, roleList, email);
 				return next.handle(request);
 			} else {
 				return ServerResponse.status(HttpStatus.UNAUTHORIZED)

@@ -7,14 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.domain.user.aggregate.UserInfo;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;;
 
 @Repository
 public interface UserRepository extends R2dbcRepository<UserInfo, Long> {
 
-	Mono<UserInfo> findByUsername(String username);
+	Mono<UserInfo> findByTenantAndUsername(String tenant, String username);
 
-	Mono<UserInfo> findByEmail(String email);
+	Mono<UserInfo> findByTenantAndEmail(String tenant, String email);
 
 	@Modifying
 	@Query(value = "UPDATE user_info SET active_flag = 'N' WHERE id = :id")
@@ -23,4 +24,6 @@ public interface UserRepository extends R2dbcRepository<UserInfo, Long> {
 	@Modifying
 	@Query(value = "UPDATE user_info SET name = :name, address = :address, email = :email WHERE id = :id")
 	Mono<Integer> updateUserInfoById(String name, String address, String email, Long id);
+
+	Flux<UserInfo> findByTenant(String tenant);
 }

@@ -1,6 +1,7 @@
 package com.example.demo.iface.handler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import com.example.demo.domain.share.dto.UserInfoData;
 import com.example.demo.domain.user.command.CreateUserCommand;
 import com.example.demo.domain.user.command.UpdateUserCommand;
 import com.example.demo.iface.dto.UserInfoResource;
+import com.example.demo.infra.exception.exception.ValidationException;
 import com.example.demo.infra.jwt.shared.constant.JwtConstants;
 import com.example.demo.util.BaseDataTransformer;
 
@@ -78,9 +80,11 @@ public class UserHandler {
 			// 從上下文取得 使用者資訊。
 			List<String> roleList = ctx.get(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue());
 			String email = request.queryParam("email").orElse("");
-			log.info("email:{}", email);
+			String tenant = ctx.get(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue());
 
-			Mono<UserInfoData> userMono = userQueryService.getUserByEmail(email);
+			log.info("email:{}, tenant:{}", email, tenant);
+
+			Mono<UserInfoData> userMono = userQueryService.getUserByEmail(tenant, email);
 
 			return userMono.flatMap(userData -> {
 				// 以下條件放行:
@@ -111,16 +115,8 @@ public class UserHandler {
 			// 從上下文取得 使用者資訊。
 			String username = ctx.get(JwtConstants.JWT_CLAIMS_KEY_USER.getValue());
 			List<String> roleList = ctx.get(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue());
-			Flux<UserInfoData> userList = userQueryService.getUserList();
-
-			// 沒有權限，只能查自己
-			if (roleList.isEmpty()) {
-				// 過濾自己的使用者資料
-				Flux<UserInfoData> filteredList = userList
-						.filter(user -> StringUtils.equals(username, user.getUsername()));
-				return ServerResponse.ok().body(filteredList, UserInfoResource.class);
-			}
-
+			String tenant = ctx.get(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue());
+			Flux<UserInfoData> userList = userQueryService.getAllUserList(username, tenant, roleList);
 			return userList.hasElements().flatMap(hasElements -> {
 				if (hasElements) {
 					// 有值傳回
@@ -131,6 +127,30 @@ public class UserHandler {
 				}
 			});
 		});
+	}
+
+	/**
+	 * 取得該租戶下所有 User 資料清單 (By Tenant)
+	 * 
+	 * @param request
+	 * @return 響應資料
+	 */
+	public Mono<ServerResponse> getUsersByTenant(ServerRequest request) {
+		String tenant = request.pathVariable("tenant");
+		// 上下文需在 Handler 取得，否則會有多個 ContextView
+	    return Mono.deferContextual(ctx -> {
+
+	        String ctxTenant = ctx.get(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue());
+	        List<String> roleList = ctx.get(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue());
+
+	        Flux<UserInfoData> userList =
+	                (StringUtils.equals(ctxTenant, tenant) || roleList.contains("ADMIN"))
+	                        ? userQueryService.getUsersByTenant(tenant)
+	                        : Flux.empty();
+
+	        return userList.collectList()
+	                .flatMap(list -> ServerResponse.ok().bodyValue(list));
+	    });
 	}
 
 	/**

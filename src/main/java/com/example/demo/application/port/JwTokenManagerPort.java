@@ -7,11 +7,12 @@ public interface JwTokenManagerPort {
 	/**
 	 * 建立 token 參數:
 	 * 
+	 * @param tenant 租戶
 	 * @param username 使用者名稱
 	 * @param roleList - 角色權限清單
 	 * @return JWToken
 	 */
-	String generateToken(String username, String email, List<String> role);
+	String generateToken(String tenant, String username, String email, List<String> role);
 
 	/**
 	 * 驗證 JWToken 合法性
@@ -36,6 +37,14 @@ public interface JwTokenManagerPort {
 	 * @return email
 	 */
 	String getEmail(String token);
+	
+	/**
+	 * 取得當前租戶 Tenant
+	 * 
+	 * @param token JwToken
+	 * @return tenant
+	 */
+	String getTenant(String token);
 
 	/**
 	 * 取得使用者角色

@@ -33,7 +33,7 @@ class ReactiveSystemDemoApplicationTests {
 	static void setUpBeforeClass() throws Exception {
 		// 取得 JWToken
 		WebClient client = WebClient.builder().baseUrl("http://localhost:8080/api/v1").build();
-		CreateJwTokenResource resource = new CreateJwTokenResource("nick123", "password123");
+		CreateJwTokenResource resource = new CreateJwTokenResource("TSMC", "nick123", "password123");
 		Mono<JwTokenCreatedResource> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
 				.bodyToMono(JwTokenCreatedResource.class); // 將響應體解析為 Mono<CreatedJwTokenResource>。
 		
@@ -61,7 +61,7 @@ class ReactiveSystemDemoApplicationTests {
 		// 模擬一個線程
 		Thread thread = new Thread(() -> {
 			WebClient client = WebClient.builder().baseUrl("http://localhost:8080/api/v1").build();
-			CreateJwTokenResource resource = new CreateJwTokenResource("nick123", "password123");
+			CreateJwTokenResource resource = new CreateJwTokenResource("TSMC", "nick123", "password123");
 			Mono<JwTokenCreatedResource> result = client.post().uri("/login").bodyValue(resource).retrieve() // 準備檢索響應。這一步配置了請求以便後續可以獲取到響應。
 					.bodyToMono(JwTokenCreatedResource.class); // 將響應體解析為 Mono<CreatedJwTokenResource>。
 			

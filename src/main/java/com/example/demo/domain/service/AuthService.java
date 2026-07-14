@@ -26,11 +26,13 @@ public class AuthService {
 	/**
 	 * 建立使用者特定權限
 	 * 
-	 * @param command
+	 * @param command {@link CreateAuthCommand}
+	 * @param tenant  租戶
 	 * @return 成功訊息
 	 */
 	public Mono<String> createAuth(CreateAuthCommand command) {
-		Mono<Long> userIdMono = userRepository.findByUsername(command.getUsername()).map(UserInfo::getId);
+		Mono<Long> userIdMono = userRepository.findByTenantAndUsername(command.getTenant(), command.getUsername())
+				.map(UserInfo::getId);
 
 		return userIdMono.flatMap(userId ->
 		// 刪除該使用者所有權限( admin 不能刪除)

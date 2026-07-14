@@ -38,11 +38,12 @@ public class UserService {
 	/**
 	 * 根據 Email 查詢使用者
 	 * 
-	 * @param email - 使用者信箱
+	 * @param tenant - 租戶
+	 * @param email  - 使用者信箱
 	 * @return Mono<UserInfo>
 	 */
-	public Mono<UserInfo> getUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public Mono<UserInfo> getUserByEmail(String tenant, String email) {
+		return userRepository.findByTenantAndEmail(tenant, email);
 	}
 
 	/**
@@ -50,8 +51,18 @@ public class UserService {
 	 * 
 	 * @return Flux<UserInfo>
 	 */
-	public Flux<UserInfo> getUserList() {
+	public Flux<UserInfo> getAllUserList() {
 		return userRepository.findAll();
+	}
+
+	/**
+	 * 取得使用者清單(By Tenant)
+	 * 
+	 * @param tenant 租戶
+	 * @return Flux<UserInfo>
+	 */
+	public Flux<UserInfo> getUserListByTenant(String tenant) {
+		return userRepository.findByTenant(tenant);
 	}
 
 	/**
@@ -61,14 +72,13 @@ public class UserService {
 	 * @return Mono<User>
 	 */
 	public Mono<String> createUser(CreateUserCommand command) {
-		Mono<UserInfo> userMono = userRepository.findByUsername(command.getUsername());
+		Mono<UserInfo> userMono = userRepository.findByTenantAndUsername(command.getTenant(), command.getUsername());
 		return userMono.hasElement().flatMap(hasElements -> {
 			if (hasElements) {
 				log.error("指定帳戶已存在，註冊失敗");
 				throw new ValidationException(409, "指定帳戶已存在，註冊失敗");
 			} else {
-				UserInfo userInfo = new UserInfo();
-				userInfo.create(command);
+				UserInfo userInfo = UserInfo.create(command);
 				return userRepository.save(userInfo).map(e -> "成功新增一筆資料，id:" + e.getId());
 			}
 		});

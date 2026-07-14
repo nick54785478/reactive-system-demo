@@ -42,7 +42,7 @@ public class JwTokenCommandService {
 	 * @return token
 	 */
 	public Mono<String> generateJWToken(GenerateJwTokenCommand command) {
-		return userRepository.findByUsername(command.getUsername())
+		return userRepository.findByTenantAndUsername(command.getTenant(), command.getUsername())
 				// 1. 處理找不到使用者的情況
 				.switchIfEmpty(Mono.error(new ValidationException(401, "User not found")))
 				// 2. 使用 filter 進行密碼檢查
@@ -50,13 +50,14 @@ public class JwTokenCommandService {
 				// 3. 如果 filter 沒過，代表密碼錯了
 				.switchIfEmpty(Mono.error(new ValidationException(401, "Password does not match")))
 				// 4. 通過後才進入角色查詢與 Token 生成
-				.flatMap(userInfo -> getRoleNamesByUserId(userInfo.getId())
-						.map(roles -> jwTokenManager.generateToken(command.getUsername(), userInfo.getEmail(), roles)));
+				.flatMap(userInfo -> getRoleNamesByUserId(userInfo.getId()).map(roles -> jwTokenManager
+						.generateToken(userInfo.getTenant(), command.getUsername(), userInfo.getEmail(), roles)));
 	}
 
 	/**
 	 * 私有輔助方法：封裝查詢角色的複雜流
 	 * 
+	 * @param tenant 租戶
 	 * @param userId 使用者 ID
 	 * @return 使用者清單
 	 */
@@ -78,8 +79,8 @@ public class JwTokenCommandService {
 	 * @return Token 資訊
 	 */
 	public Mono<TokenValidatedResource> validateToken(ValidateTokenCommand command) {
-		return Mono.just(command.getToken()).map(
-				token -> new TokenValidatedResource(jwTokenManager.getEmail(token), jwTokenManager.getRoleList(token)));
+		return Mono.just(command.getToken()).map(token -> new TokenValidatedResource(jwTokenManager.getTenant(token),
+				jwTokenManager.getEmail(token), jwTokenManager.getRoleList(token)));
 	}
 
 }

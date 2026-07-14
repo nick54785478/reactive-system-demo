@@ -37,8 +37,8 @@ public class RoleService {
 	 * 
 	 * @return Flux<User>
 	 */
-	public Flux<RoleInfo> getRoleList() {
-		return roleRepository.findAll();
+	public Flux<RoleInfo> getRoleList(String tenant) {
+		return roleRepository.findByTenant(tenant);
 	}
 
 	/**
@@ -48,8 +48,7 @@ public class RoleService {
 	 * @return Mono<User>
 	 */
 	public Mono<String> createRole(CreateRoleCommand command) {
-		RoleInfo roleInfo = new RoleInfo();
-		roleInfo.create(command);
+		RoleInfo roleInfo = RoleInfo.create(command);
 		return roleRepository.save(roleInfo).map(e -> "成功新增一筆資料: " + e.getId());
 	}
 

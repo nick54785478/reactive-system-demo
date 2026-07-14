@@ -14,4 +14,6 @@ public interface RoleRepository extends R2dbcRepository<RoleInfo, Long> {
 
 	Flux<RoleInfo> findByIdInAndActiveFlag(List<Long> ids, String activeFlag);
 
+	Flux<RoleInfo> findByTenant(String tenant);
+
 }

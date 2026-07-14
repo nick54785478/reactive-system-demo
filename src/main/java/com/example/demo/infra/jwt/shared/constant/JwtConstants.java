@@ -30,7 +30,12 @@ public enum JwtConstants {
 	/**
 	 * JWT 在程式碼中統一引用 JWT 中使用者信箱
 	 * */
-	JWT_CLAIMS_KEY_EMAIL("email");
+	JWT_CLAIMS_KEY_EMAIL("email"),
+	
+	/**
+	 * JWT 在程式碼中統一引用 JWT 中租戶，目前沒有其他用途，以待後續擴充用
+	 * */
+	JWT_CLAIMS_KEY_TENANT("tenant");
 	
     private final String value;
 

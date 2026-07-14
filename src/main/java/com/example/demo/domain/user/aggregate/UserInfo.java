@@ -14,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,10 +26,10 @@ import lombok.ToString;
 @Entity
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "user_info")
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserInfo {
 
 	/*
@@ -40,6 +41,8 @@ public class UserInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	private String tenant; // 租戶
 
 	private String name;
 
@@ -53,13 +56,13 @@ public class UserInfo {
 
 	private String activeFlag = "Y"; // 是否有效
 
-	/**
-	 * Constructor
-	 */
-	public UserInfo(String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
+//	/**
+//	 * Constructor
+//	 */
+//	private UserInfo(String username, String password) {
+//		this.username = username;
+//		this.password = password;
+//	}
 
 	/**
 	 * 新增使用者資料
@@ -67,13 +70,16 @@ public class UserInfo {
 	 * @param command
 	 * @param passwordEncoder 密碼加密器
 	 */
-	public void create(CreateUserCommand command) {
-		this.name = command.getName();
-		this.username = command.getUsername();
-		this.password = PasswordUtil.encode(command.getPassword());
-		this.email = command.getEmail();
-		this.address = command.getAddress();
-		this.activeFlag = UserActive.ACTIVE.getValue();
+	public static UserInfo create(CreateUserCommand command) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.tenant = command.getTenant();
+		userInfo.name = command.getName();
+		userInfo.username = command.getUsername();
+		userInfo.password = PasswordUtil.encode(command.getPassword());
+		userInfo.email = command.getEmail();
+		userInfo.address = command.getAddress();
+		userInfo.activeFlag = UserActive.ACTIVE.getValue();
+		return userInfo;
 	}
 
 	/**

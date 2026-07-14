@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS user_info (
     `id` BIGINT(20) AUTO_INCREMENT,
+    `tenant` VARCHAR(100),
     `name` VARCHAR(100),
     `username` VARCHAR(100),
     `password` VARCHAR(100),
@@ -11,6 +12,7 @@ CREATE TABLE IF NOT EXISTS user_info (
 
 CREATE TABLE IF NOT EXISTS role_info (
     `id` BIGINT(20) AUTO_INCREMENT,
+    `tenant` VARCHAR(100),
     `name` VARCHAR(100),
     `type` VARCHAR(100),
     `description` VARCHAR(255),

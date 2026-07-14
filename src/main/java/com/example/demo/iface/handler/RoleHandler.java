@@ -1,5 +1,8 @@
 package com.example.demo.iface.handler;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -10,10 +13,13 @@ import com.example.demo.application.service.RoleQueryService;
 import com.example.demo.domain.role.command.CreateRoleCommand;
 import com.example.demo.domain.role.command.UpdateRoleCommand;
 import com.example.demo.domain.share.dto.RoleInfoData;
+import com.example.demo.domain.share.dto.UserInfoData;
 import com.example.demo.iface.dto.RoleCreatedResource;
 import com.example.demo.iface.dto.RoleDeletedResource;
 import com.example.demo.iface.dto.RoleInfoResource;
 import com.example.demo.iface.dto.RoleUpdatedResource;
+import com.example.demo.iface.dto.UserInfoResource;
+import com.example.demo.infra.jwt.shared.constant.JwtConstants;
 import com.example.demo.util.BaseDataTransformer;
 
 import lombok.NoArgsConstructor;
@@ -55,15 +61,24 @@ public class RoleHandler {
 	 */
 	public Mono<ServerResponse> getRoleList(ServerRequest request) {
 		log.info("[Role Handler] method: GET, path:/api/vi/roles");
-		Flux<RoleInfoData> RoleList = roleQueryService.getRoleList();
-		return RoleList.hasElements().flatMap(hasElements -> {
-			if (hasElements) {
-				// 有值傳回
-				return ServerResponse.ok().body(RoleList, RoleInfoResource.class);
-			} else {
-				// 無值傳回空 list
-				return ServerResponse.noContent().build(); // 204 No Content
-			}
+
+		// 上下文需在 Handler 取得，否則會有多個 ContextView
+		return Mono.deferContextual(ctx -> {
+			// 從上下文取得 使用者資訊。
+
+			String tenant = ctx.get(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue());
+
+			Flux<RoleInfoData> RoleList = roleQueryService.getRoleList(tenant);
+
+			return RoleList.hasElements().flatMap(hasElements -> {
+				if (hasElements) {
+					// 有值傳回
+					return ServerResponse.ok().body(RoleList, RoleInfoResource.class);
+				} else {
+					// 無值傳回空 list
+					return ServerResponse.noContent().build(); // 204 No Content
+				}
+			});
 		});
 	}
 

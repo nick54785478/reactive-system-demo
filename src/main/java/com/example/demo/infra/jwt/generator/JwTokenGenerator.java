@@ -33,15 +33,22 @@ public class JwTokenGenerator {
 	/**
 	 * 建立 token 參數:
 	 * 
+	 * @param tenant   租戶
 	 * @param username 使用者名稱
 	 * @param roleList - 角色權限清單
 	 * @return JWToken
 	 */
-	public String generateToken(String username, String email, List<String> role) {
+	public String generateToken(String tenant, String username, String email, List<String> role) {
 		log.debug("有效時間: {}", expiration);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put(JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(), email);
 		map.put(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), role);
+		
+		// 如果沒給 Tenant，就不加入
+		if (tenant != null) {
+			map.put(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue(), tenant);
+		}
+		
 		log.info("map: {}", map);
 
 		Date issDate = new Date(System.currentTimeMillis()); // 簽發日+7天

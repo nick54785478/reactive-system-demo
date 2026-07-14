@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateAuthCommand {
-
+	
+	private String tenant;  // 租戶
+	
 	private String username; // 使用者帳號
 
 	private List<Long> roleList; // 角色 ID 列表

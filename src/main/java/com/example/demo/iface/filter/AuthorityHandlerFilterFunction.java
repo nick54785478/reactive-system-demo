@@ -31,7 +31,8 @@ public class AuthorityHandlerFilterFunction implements HandlerFilterFunction<Ser
 		List<String> roleList = (List<String>) request.attributes()
 				.getOrDefault(JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), new ArrayList<>());
 		String email = (String) request.attributes().get(JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue());
-		
+		String tenant = (String) request.attributes().get(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue());
+
 		// 從 request 中取得 Http Method
 		HttpMethod method = request.method();
 		// 從 request 中取得 uri
@@ -40,8 +41,12 @@ public class AuthorityHandlerFilterFunction implements HandlerFilterFunction<Ser
 
 		// ROOT 權限直接放行
 		if (roleList.contains("ADMIN")) {
-			return next.handle(request).contextWrite(Context.of(JwtConstants.JWT_CLAIMS_KEY_USER.getValue(), username,
-					JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), roleList, JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(), email));
+			return next.handle(request)
+					.contextWrite(Context.of(JwtConstants.JWT_CLAIMS_KEY_USER.getValue(), username,
+							JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), roleList,
+							JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(), email,
+							JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue(), tenant)
+							);
 		}
 
 		// 註冊 放行
@@ -53,7 +58,8 @@ public class AuthorityHandlerFilterFunction implements HandlerFilterFunction<Ser
 		if (path.contains("/users") && (!method.equals(HttpMethod.DELETE))) {
 			// 設置上下文
 			return next.handle(request).contextWrite(Context.of(JwtConstants.JWT_CLAIMS_KEY_USER.getValue(), username,
-					JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), roleList, JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(), email));
+					JwtConstants.JWT_CLAIMS_KEY_ROLE.getValue(), roleList, JwtConstants.JWT_CLAIMS_KEY_EMAIL.getValue(),
+					email, JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue(), tenant));
 		}
 
 		// Data Owner 可進行刪除使用者資料

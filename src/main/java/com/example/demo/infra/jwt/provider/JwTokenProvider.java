@@ -31,6 +31,18 @@ public class JwTokenProvider {
 	private long expiration; // 過期時間若是3600L秒，即1個小時
 
 	/**
+	 * 從 token 中取得租戶
+	 * 
+	 * @param token
+	 * @return 租戶
+	 */
+	public String getTenant(String token) {
+		log.info("getUsername: " + getTokenBody(token).getSubject());
+		log.info("TokenBody: " + getTokenBody(token));
+		return (String) getTokenBody(token).get(JwtConstants.JWT_CLAIMS_KEY_TENANT.getValue());
+	}
+	
+	/**
 	 * 從 token 中取得使用者名稱
 	 * 
 	 * @param token

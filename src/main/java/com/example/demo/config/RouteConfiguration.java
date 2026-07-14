@@ -45,8 +45,9 @@ public class RouteConfiguration {
 		return RouterFunctions.route(RequestPredicates.GET("/api/v1/users"), handler::getUserList)
 				.andRoute(
 						RequestPredicates.GET("/api/v1/users/queryByEmail")
-								.and(RequestPredicates.queryParam("email", email -> StringUtils.isNotBlank(email))),
+								.and(RequestPredicates.queryParam("email", StringUtils::isNotBlank)),
 						handler::getUserByEmail) // 有 RequestParam 的參數須注意，不能放在 /{id} 後面，不然會選擇該路徑
+				.andRoute(RequestPredicates.GET("/api/v1/{tenant}/users"), handler::getUsersByTenant)
 				.andRoute(RequestPredicates.GET("/api/v1/users/{id}"), handler::getUser)
 				.andRoute(RequestPredicates.POST("/api/v1/users/register"), handler::createUser)
 				.andRoute(RequestPredicates.PUT("/api/v1/users/{id}"), handler::updateUser)
