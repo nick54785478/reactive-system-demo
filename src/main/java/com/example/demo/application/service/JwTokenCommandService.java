@@ -50,8 +50,9 @@ public class JwTokenCommandService {
 				// 3. 如果 filter 沒過，代表密碼錯了
 				.switchIfEmpty(Mono.error(new ValidationException(401, "Password does not match")))
 				// 4. 通過後才進入角色查詢與 Token 生成
-				.flatMap(userInfo -> getRoleNamesByUserId(userInfo.getId()).map(roles -> jwTokenManager
-						.generateToken(userInfo.getTenant(), command.getUsername(), userInfo.getEmail(), roles)));
+				.flatMap(userInfo -> getRoleNamesByUserId(userInfo.getId())
+						.map(roles -> jwTokenManager.generateToken(userInfo.getTenant(), command.getUsername(),
+								userInfo.getEmail(), roles, userInfo.getName())));
 	}
 
 	/**

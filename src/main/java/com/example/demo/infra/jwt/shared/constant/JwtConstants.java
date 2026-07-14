@@ -28,6 +28,11 @@ public enum JwtConstants {
 	JWT_CLAIMS_KEY_USER("username"),
 	
 	/**
+	 * JWT 在程式碼中統一引用 JWT 中使用者帳號
+	 * */
+	JWT_CLAIMS_KEY_NAME("name"),
+	
+	/**
 	 * JWT 在程式碼中統一引用 JWT 中使用者信箱
 	 * */
 	JWT_CLAIMS_KEY_EMAIL("email"),

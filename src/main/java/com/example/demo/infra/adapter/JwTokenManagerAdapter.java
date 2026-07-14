@@ -20,8 +20,8 @@ class JwTokenManagerAdapter implements JwTokenManagerPort {
 	private JwTokenValidator jwTokenValidator;
 
 	@Override
-	public String generateToken(String tenant, String username, String email, List<String> role) {
-		return jwTokenGenerator.generateToken(tenant, username, email, role);
+	public String generateToken(String tenant, String username, String email, List<String> role, String name) {
+		return jwTokenGenerator.generateToken(tenant, username, email, role, name);
 	}
 
 	@Override
